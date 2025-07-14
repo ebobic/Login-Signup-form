@@ -2,23 +2,23 @@
 
 :root {
   --accent-color: hsl(211, 97%, 30%);
+  --accent-color-dark: hsl(211, 97%, 20%);
   --base-color: hsl(0, 0%, 100%);
   --text-color: hsl(0, 0%, 10%);
-  --input-color: hsl(0, 0%, 100%);
+  --input-color: hsl(210, 20%, 96%);
+  --error-color: hsl(0, 100%, 42%);
 }
-
 
 /* =================================== */
         /* ALLMÄNNA STILAR */
 /* =================================== */
 
-/* --- Reset (nollställer marginaler) --- */
 * {
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
 }
 
-/* --- Grundstil för hela dokumentet --- */
 html {
   font-family: Roboto, sans-serif, Segoe UI;
   font-size: 1rem;
@@ -26,7 +26,6 @@ html {
   text-align: center;
 }
 
-/* --- Styling för body (bakgrund etc.) --- */
 body {
   min-height: 100vh;
   background-image: url(blueish.jpg);
@@ -35,9 +34,7 @@ body {
   overflow: hidden;
 }
 
-/* --- Huvud-containern som omsluter allt --- */
 .wrapper {
-  box-sizing: border-box;
   background-color: var(--base-color);
   height: 100vh;
   width: max(40%, 600px);
@@ -47,19 +44,17 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 /* ===== Formulär ====*/
 
-
-/* --- Huvudrubriken --- */
 h1 {
   font-size: 2rem;
   font-weight: 900;
   text-transform: uppercase;
 }
 
-/* --- Själva formuläret --- */
 form {
   width: min(400px, 100%);
   margin-top: 20px;
@@ -67,22 +62,20 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
-/* --- Rader i formuläret (label + input) --- */
 form > div {
   width: 100%;
   display: flex;
   justify-content: center;
 }
 
-/* --- Ikonerna/Etiketterna (label) --- */
 form label {
   flex-shrink: 0;
   height: 50px;
   width: 50px;
-  background-color: var(--accent-color);
+  background: linear-gradient(145deg, var(--accent-color), var(--accent-color-dark));
   fill: var(--base-color);
   color: var(--base-color);
   border-radius: 10px 0 0 10px;
@@ -91,11 +84,10 @@ form label {
   align-items: center;
   font-size: 1rem;
   font-weight: 500;
+  transition: background 300ms ease-in-out;
 }
 
-/* --- Inmatningsfälten (input) --- */
 form input {
-  box-sizing: border-box;
   flex-grow: 1;
   min-width: 0;
   height: 50px;
@@ -105,83 +97,85 @@ form input {
   border: 2px solid var(--input-color);
   border-left: none;
   background-color: var(--input-color);
-  transition: 150ms ease;
+  transition: border-color 300ms ease-in-out, box-shadow 300ms ease-in-out;
 }
 
 form input::placeholder {
-  color: var(--text-color);
+  color: hsl(0, 0%, 55%);
 }
 
-/* --- Interaktiva tillstånd för input --- */
 form input:hover {
   border-color: var(--accent-color);
 }
 
 form input:focus {
   outline: none;
-  border-color: var(--text-color);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px hsla(211, 97%, 30%, 0.2);
 }
 
-/* Ändrar label-bakgrund när tillhörande input är i fokus */
 div:has(input:focus) > label {
-  background-color: var(--text-color);
+  background: linear-gradient(145deg, var(--text-color), black);
 }
 
-/* --- Knappen --- */
 form button {
   margin-top: 10px;
   border: none;
   border-radius: 1000px;
   padding: .85em 4em;
-  background-color: var(--accent-color);
+  background: linear-gradient(145deg, var(--accent-color), var(--accent-color-dark));
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   color: var(--base-color);
   font: inherit;
   font-weight: 600;
   text-transform: uppercase;
   cursor: pointer;
-  transition: 150ms ease;
+  transition: all 300ms ease-in-out;
 }
 
-/* --- Interaktiva tillstånd för knappen --- */
 form button:hover {
-  background-color: var(--text-color);
-  text-decoration: underline;
+  background: linear-gradient(145deg, var(--text-color), black);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-form button:focus {
-  outline: none;
-  background-color: var(--text-color);
+form button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-
-/*=== LÄNKAR===*/
+/* === LÄNKAR === */
 
 a {
   text-decoration: none;
   color: var(--accent-color);
+  font-weight: 500;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
-
-/* ====RESPONSIVITET==== */
-/* --- Anpassning för mindre skärmar --- */
+/* === RESPONSIVITET === */
 @media(max-width: 1100px) {
   .wrapper {
     width: min(600px, 100%);
     border-radius: 0;
+    box-shadow: none;
   }
+}
 
-/* --- Errors --- */
+/* === Errors === */
+form div.incorrect label {
+    background: var(--error-color);
 }
-form div.incorrect label{
-    background-color: hsl(0, 100%, 42%);
+
+form div.incorrect input {
+    border-color: var(--error-color);
+    box-shadow: 0 0 0 3px hsla(0, 100%, 42%, 0.2);
 }
-form div.incorrect input{
-    border-color: hsl(0, 100%, 42%);
-}
-#error-message{
-color: hsl(0, 100%, 42%);
+
+#error-message {
+  color: var(--error-color);
+  font-weight: 500;
 }
