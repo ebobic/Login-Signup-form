@@ -178,4 +178,5 @@ form div.incorrect input {
 #error-message {
   color: var(--error-color);
   font-weight: 500;
+  font-size: 0.8rem;
 }
